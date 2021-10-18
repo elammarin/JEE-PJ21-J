@@ -5,13 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import univ.lille.gl.sra1.dao.Status;
 
@@ -23,6 +17,7 @@ public class Order implements Serializable {
     @GeneratedValue
     long id;
 
+    @Column(name="customerId")
     String customerId;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -43,7 +38,7 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public String getCustomerId() {
+    public String getCustomerId(Long aLong) {
         return customerId;
     }
 
@@ -72,7 +67,7 @@ public class Order implements Serializable {
     public void setArticles(List<String> articles) {
         this.articles = articles;
     }*/
-    public Status getCurrentStatus() {
+    public Status getCurrentStatus(String ready_to_deliver) {
         return currentStatus;
     }
     public void setCurrentStatus(Status currentStatus) {

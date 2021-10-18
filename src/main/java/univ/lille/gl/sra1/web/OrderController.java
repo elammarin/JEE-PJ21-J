@@ -1,9 +1,11 @@
 package univ.lille.gl.sra1.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import univ.lille.gl.sra1.dao.OrderDao;
 import univ.lille.gl.sra1.repository.OrderRepository;
 
 
@@ -12,8 +14,8 @@ import univ.lille.gl.sra1.repository.OrderRepository;
 public class OrderController {
 
 
-    // Autowire this
-    OrderRepository repoOrder;
+    @Autowired
+    OrderDao repo;
 
     @RequestMapping(path="/ofCustomer/{custId}.html")
     public String list(@PathVariable String custId, Model model) {
