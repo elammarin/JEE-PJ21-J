@@ -10,6 +10,10 @@ import javax.servlet.ServletRegistration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -21,6 +25,7 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 @Configuration
 @ComponentScan(basePackages={"univ.lille.gl.sra1.web","univ.lille.gl.sra1.dao"})
 @EnableWebMvc
+@EnableJpaRepositories(basePackages="univ.lille.gl.sra1.repository")
 public class AppConfig implements WebApplicationInitializer {
 
     @Override
@@ -32,14 +37,20 @@ public class AppConfig implements WebApplicationInitializer {
         registration.addMapping("*.html", "*.json");
     }
 
-    @Bean
-    public EntityManagerFactory entityManagerFactory() {
-        return Persistence.createEntityManagerFactory("myApp");
+    @Bean(name="entityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+
+        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+        emf.setPersistenceUnitName("myApp");
+        return emf ;
     }
 
-    @Bean
-    public EntityManager entityManager(EntityManagerFactory emf) {
-        return emf.createEntityManager();
+
+    @Bean(name="transactionManager")
+    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+        JpaTransactionManager txManager = new JpaTransactionManager(emf);
+        txManager.setPersistenceUnitName("myApp");
+        return txManager;
     }
 
     @Bean

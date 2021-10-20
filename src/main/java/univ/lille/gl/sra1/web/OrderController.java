@@ -6,7 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import univ.lille.gl.sra1.dao.OrderDao;
+import univ.lille.gl.sra1.model.Order;
 import univ.lille.gl.sra1.repository.OrderRepository;
+
+import java.util.List;
 
 
 @Controller
@@ -15,16 +18,21 @@ public class OrderController {
 
 
     @Autowired
-    OrderDao repo;
+    OrderRepository repoOrder;
+
 
     @RequestMapping(path="/ofCustomer/{custId}.html")
     public String list(@PathVariable String custId, Model model) {
-
-        // use repo to get orders of a customer
-        // assign in model as "orders"
-        // return order list view
-
-        return "";
+        List<Order> orders = repoOrder.findAllByCustomerIdOrderByCreatedOnDesc(custId);
+        model.addAttribute("orders", orders);
+        return "order_list";
     }
 
-}
+    @RequestMapping("/")
+    public String welcome(){
+        //jsp welcome need to redirect to /order/ofCustomer/{custId}.html given the customer id in the field of the form.
+        return "welcome";
+    }
+
+
+    }

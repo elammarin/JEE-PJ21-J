@@ -17,7 +17,6 @@ public class Order implements Serializable {
     @GeneratedValue
     long id;
 
-    @Column(name="customerId")
     String customerId;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -27,7 +26,7 @@ public class Order implements Serializable {
 
     /*@ElementCollection
     List<String> articles = new ArrayList<>();
-*/
+    */
     Status currentStatus;
 
     public long getId() {
