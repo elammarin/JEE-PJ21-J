@@ -24,9 +24,6 @@ public class Order implements Serializable {
 
     int amount;
 
-    /*@ElementCollection
-    List<String> articles = new ArrayList<>();
-    */
     Status currentStatus;
 
     public long getId() {
@@ -60,12 +57,6 @@ public class Order implements Serializable {
     public void setAmount(int amount) {
         this.amount = amount;
     }
-    /*public List<String> getArticles() {
-        return articles;
-    }
-    public void setArticles(List<String> articles) {
-        this.articles = articles;
-    }*/
     public Status getCurrentStatus(String ready_to_deliver) {
         return currentStatus;
     }

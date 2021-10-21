@@ -1,14 +1,9 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: elammari
-  Date: 10/20/21
-  Time: 3:49 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page pageEncoding="UTF-8" %>
 <!DOCTYPE html>
-<html>
+<html><%
+String ctxPath = request.getContextPath();
+%>
 <head>
   <title>Welcome</title>
   <meta http-equiv='Content-Type' content='text/html' />
@@ -21,19 +16,15 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
   <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/locales/bootstrap-datepicker.fr.min.js" charset="UTF-8"></script>
-
 </head>
 <body>
-<form>
-  <div class="form-group">
+<form method="POST" action="ordermanager.html">
     <label for="customerID">CustomerID</label>
-    <input type="customerID" class="form-control" id="customerID"  placeholder="Enter customerID">
-  </div>
-  <div class="form-group form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-  </div>
-  <button type="submit" class="btn btn-primary" value="/customer">Submit</button>
+    <input type="text" name="customerID" class="form-control input" id="customerID" placeholder="Enter customerID">
+  <button type="submit" class="btn btn-primary" >Submit</button>
 </form>
+<script src="<%= ctxPath %>/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="<%= ctxPath %>/js/ie10-viewport-bug-workaround.js"></script>
 </body>
 

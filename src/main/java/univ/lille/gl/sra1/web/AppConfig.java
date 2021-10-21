@@ -37,6 +37,15 @@ public class AppConfig implements WebApplicationInitializer {
         registration.addMapping("*.html", "*.json");
     }
 
+    @Bean
+    public ViewResolver viewResolver() {
+        UrlBasedViewResolver resolver = new UrlBasedViewResolver();
+        resolver.setPrefix("/WEB-INF/views/");
+        resolver.setSuffix(".jsp");
+        resolver.setViewClass( JstlView.class );
+        return resolver;
+    }
+
     @Bean(name="entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 
@@ -51,15 +60,6 @@ public class AppConfig implements WebApplicationInitializer {
         JpaTransactionManager txManager = new JpaTransactionManager(emf);
         txManager.setPersistenceUnitName("myApp");
         return txManager;
-    }
-
-    @Bean
-    public ViewResolver viewResolver() {
-        UrlBasedViewResolver resolver = new UrlBasedViewResolver();
-        resolver.setPrefix("/WEB-INF/views/");
-        resolver.setSuffix(".jsp");
-        resolver.setViewClass( JstlView.class );
-        return resolver;
     }
 
 }
