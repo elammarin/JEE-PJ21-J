@@ -5,7 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import univ.lille.gl.sra1.dao.Status;
 
@@ -24,6 +30,9 @@ public class Order implements Serializable {
 
     int amount;
 
+    @ElementCollection
+    List<String> articles = new ArrayList<>();
+
     Status currentStatus;
 
     public long getId() {
@@ -34,7 +43,7 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public String getCustomerId(Long aLong) {
+    public String getCustomerId() {
         return customerId;
     }
 
@@ -57,7 +66,13 @@ public class Order implements Serializable {
     public void setAmount(int amount) {
         this.amount = amount;
     }
-    public Status getCurrentStatus(String ready_to_deliver) {
+    public List<String> getArticles() {
+        return articles;
+    }
+    public void setArticles(List<String> articles) {
+        this.articles = articles;
+    }
+    public Status getCurrentStatus() {
         return currentStatus;
     }
     public void setCurrentStatus(Status currentStatus) {

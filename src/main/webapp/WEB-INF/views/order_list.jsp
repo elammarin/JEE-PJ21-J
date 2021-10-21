@@ -8,7 +8,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<!DOCTYPE html>
+<% String ctxPath = request.getContextPath();
+%>
+        <!DOCTYPE html>
 <html>
 <head>
     <title>order</title>
@@ -31,9 +33,8 @@
         <c:otherwise>
             <c:forEach items="${orders}" var="order">
                 <li>
-                    <p>
-                        Amount : <fmt:formatNumber type="currency" pattern ="#,##" value="${order.amount}" currencySymbol="&euro; " />
-                            <%-- Amount : <fmt:formatNumber type="number" value="${order.amount/100.0}" currencySymbol="&euro; " /> --%><br/>
+                        Date : <fmt:formatDate pattern = "d/M/YY" value="${order.createdOn}"/><br/>
+                        Amount : <fmt:formatNumber type="currency" pattern ="#,##" value="${order.amount}" currencySymbol="&euro; " /> <br/>
                         Status : <c:out value = "${order.currentStatus}"/>
                     </p>
                 </li>
