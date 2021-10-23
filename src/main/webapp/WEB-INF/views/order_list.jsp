@@ -10,7 +10,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <% String ctxPath = request.getContextPath();
 %>
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>order</title>
@@ -26,20 +26,26 @@
     <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/locales/bootstrap-datepicker.fr.min.js" charset="UTF-8"></script>
 </head>
 <body>
-<h1>Liste des commandes</h1>
-<ul>
+<div class="container">
+<h1>Votre commande</h1>
+<ul class="list-group">
     <c:choose>
-        <c:when test="${empty orders}">Aucune commande</c:when>
+        <c:when test="${empty order}">Aucune commande</c:when>
         <c:otherwise>
-            <c:forEach items="${orders}" var="order">
-                <li>
+            <!--c:forEach items="${orders}" var="order"-->
+                <li class="list-group-item">
+                    <p>
                         Date : <fmt:formatDate pattern = "d/M/YY" value="${order.createdOn}"/><br/>
-                        Amount : <fmt:formatNumber type="currency" pattern ="#,##" value="${order.amount}" currencySymbol="&euro; " /> <br/>
+                        Amount : <fmt:formatNumber type="currency" pattern ="#,##" value="${order.amount}" currencySymbol="€; " /> <br/>
                         Status : <c:out value = "${order.currentStatus}"/>
                     </p>
                 </li>
-            </c:forEach>
+            <!--/c:forEach-->
+        <form action="../${order.id}/ticket.html">
+            <button type="submit" class="btn btn-primary" >Récuperer</button>
+        </form>
         </c:otherwise>
     </c:choose>
 </ul>
-    </body>
+</div>
+</body>

@@ -18,11 +18,17 @@ String ctxPath = request.getContextPath();
   <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/locales/bootstrap-datepicker.fr.min.js" charset="UTF-8"></script>
 </head>
 <body>
+<div class="container">
 <form method="POST" action="ordermanager.html">
-    <label for="customerID">CustomerID</label>
-    <input type="text" name="customerID" class="form-control input" id="customerID" placeholder="Enter customerID">
-  <button type="submit" class="btn btn-primary" >Submit</button>
+  <div class="row">
+    <div class="form-group col-lg-3">
+      <label for="customerID" class="col-sm-15 col-form-label">Entrez votre identifiant client afin de récuperer vôtre commande :</label>
+      <input type="text" name="customerID" class="form-control input" id="customerID" placeholder="Enter customerID">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary" >Valider</button>
 </form>
+</div>
 <script src="<%= ctxPath %>/js/bootstrap.min.js" type="text/javascript"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="<%= ctxPath %>/js/ie10-viewport-bug-workaround.js"></script>

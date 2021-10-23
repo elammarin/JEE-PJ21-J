@@ -4,6 +4,7 @@ package univ.lille.gl.sra1.repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import univ.lille.gl.sra1.dao.OrderDao;
+import univ.lille.gl.sra1.dao.Status;
 import univ.lille.gl.sra1.model.Order;
 
 import javax.annotation.PostConstruct;
@@ -22,4 +23,6 @@ public interface OrderRepository
  @Query("select count(o) from Order o where o.currentStatus = ?1 and o.createdOn between ?2 and ?3")
  public int countOrdersByCurrentStatusAndCreatedOnBetween(String status, Date createdOnStart, Date createdOnEnd);
 
+ @Query("select o from Order o where o.customerId = ?1 and o.currentStatus = ?2 order by o.createdOn ASC")
+ public List<Order> findOrderToDeliver(String customerId, Status currentStatus);
 }
