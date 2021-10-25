@@ -38,6 +38,8 @@ public class OrderController {
     	hour = Math.toIntExact((date.getTime() / 1000 / 60 / 60) % 24) + 2;
     	if(hour==24) {
     		hour = 0;
+    	}else if(hour==25){
+    		hour = 1;
     	}
     	
     	return hour; 	

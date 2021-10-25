@@ -26,12 +26,9 @@ public interface OrderRepository
  @Query("select o from Order o where o.customerId = ?1 and o.currentStatus = ?2 order by o.createdOn ASC")
  public List<Order> findOrderToDeliver(String customerId, Status currentStatus);
 
-//validé
  public int countAllByCurrentStatusAndCreatedOnAndHourDelivered(Status currentStatus, Date createdOn ,int hourDelivered);
 
- //validé
  @Query("select o from Order o where o.currentStatus = ?1 and o.createdOn = ?2 and o.hourDelivered = ?3 ")
  public List<Order> getOrderByCurrentStatusAndCreatedOnAndHourDelivered(Status currentStatus, Date createdOn ,int hourDelivered);
 
- //public int sumByCurrentStatusAndCreatedOnAndHourDeliveredAndAmount(Status currentStatus, Date createdOn ,int hourDelivered);
 }
