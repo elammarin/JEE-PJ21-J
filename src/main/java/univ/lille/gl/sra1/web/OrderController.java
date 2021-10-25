@@ -1,6 +1,7 @@
 package univ.lille.gl.sra1.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,10 @@ import univ.lille.gl.sra1.model.Order;
 import univ.lille.gl.sra1.repository.OrderRepository;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,20 +32,63 @@ public class OrderController {
         return "redirect:/order/ofCustomer/"+customerId+".html";
     }
 
+    //extraire l'heure à partir d'une date 
+    public int dateToHour(Date date) {
+    	int hour;
+    	hour = Math.toIntExact((date.getTime() / 1000 / 60 / 60) % 24) + 2;
+    	if(hour==24) {
+    		hour = 0;
+    	}
+    	
+    	return hour; 	
+    }
+    
+    
     @GetMapping(value = "/init.html", produces = "text/html")
     public String initOrders(){
         Order o1 = new Order();
-        o1.setCreatedOn(new Date());
+        Date d1 = new Date();
+        o1.setCreatedOn(d1);
+        int hourD1 = dateToHour(d1);
+        System.out.println(d1);
+        o1.setHourDelivered(hourD1);
         o1.setAmount(300);
         o1.setCustomerId("12331");
         o1.setCurrentStatus(Status.ORDERED);
         repoOrder.save(o1);
+        
         Order o = new Order();
-        o.setCreatedOn(new Date());
+        Date d = new Date();
+        o.setCreatedOn(d);
+        int hourD = dateToHour(d);
+        System.out.println(d);
+        o.setHourDelivered(hourD);
         o.setAmount(400);
         o.setCurrentStatus(Status.READY_TO_DELIVER);
-        o.setCustomerId("12332");
+        o.setCustomerId("123");
         repoOrder.save(o);
+        
+        Order o2 = new Order();
+        Date d2 = new Date();
+		o2.setCreatedOn(d2);
+		int hourD4 = dateToHour(d2);
+		System.out.println(hourD4);
+		o2.setHourDelivered(hourD4);
+		o2.setAmount(400);
+        o2.setCurrentStatus(Status.DELIVERED);
+        o2.setCustomerId("123");
+        repoOrder.save(o2);
+        
+        Order o3 = new Order();
+        Date d3 = new Date();
+        o3.setCreatedOn(d3);
+        int hourD3 = dateToHour(d3);
+        System.out.println(hourD3);
+        o3.setHourDelivered(hourD3);
+        o3.setAmount(400);
+        o3.setCurrentStatus(Status.DELIVERED);
+        o3.setCustomerId("123");
+        repoOrder.save(o3);
         return "init";
     }
 
@@ -116,4 +164,56 @@ public class OrderController {
         model.addAttribute("ticket", ticket);
         return "ticket";
     }
+    
+    
+    
+    @GetMapping(path = "/welcomeAdmin.html", produces = "text/html")
+    public String welcomeAdmin(){
+        return "welcomeAdmin";
     }
+    
+    
+    @PostMapping(path="orderDeliveredAdmin.html")
+    public String createRoleAdmin(@RequestParam("dateChoisie") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateC,Model model){
+        
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dateVoulu = dateFormat.format(dateC);
+        
+        List<Integer> listHour = new ArrayList<Integer>();
+        List<Order> listOrder = new ArrayList<Order>();
+        int nombreTotalCommande = 0; 
+        int montantTotal = 0;
+   
+        
+        for(int i= 0 ; i<24; i++ ) {
+        	listOrder = repoOrder.getOrderByCurrentStatusAndCreatedOnAndHourDelivered(Status.DELIVERED ,dateC, i);
+        	for(int j=0; j<listOrder.size();j++) {
+        		montantTotal = montantTotal + listOrder.get(j).getAmount();
+        	}
+        }
+        
+        for(int i= 0 ; i<24; i++ ) {
+        	listHour.add(repoOrder.countAllByCurrentStatusAndCreatedOnAndHourDelivered(Status.DELIVERED ,dateC, i));
+        	nombreTotalCommande = nombreTotalCommande + listHour.get(i);
+   
+        }	
+    	
+        if(nombreTotalCommande>0) {
+        	model.addAttribute("listHour", listHour);	
+        }else {
+        	listHour = null;
+        	model.addAttribute("listHour", listHour);
+        }
+        	
+        
+    	System.out.println(nombreTotalCommande);
+    	System.out.println(montantTotal);
+    	
+    	model.addAttribute("nombreTotalCommande", nombreTotalCommande);
+    	model.addAttribute("montantTotal", montantTotal);
+        model.addAttribute("dateVoulu", dateVoulu);
+   
+        return "order_delivered";
+    }
+    
+}

@@ -21,19 +21,21 @@ public class Order implements Serializable {
 
     @Id
     @GeneratedValue
-    long id;
+    private long id;
 
-    String customerId;
+    private String customerId;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    Date createdOn;
-
-    int amount;
+    @Temporal(TemporalType.DATE)
+    private Date createdOn;
+   
+    private int hourDelivered;
+    
+	private int amount;
 
     @ElementCollection
-    List<String> articles = new ArrayList<>();
+    private List<String> articles = new ArrayList<>();
 
-    Status currentStatus;
+    private Status currentStatus;
 
     public long getId() {
         return id;
@@ -79,5 +81,15 @@ public class Order implements Serializable {
         this.currentStatus = currentStatus;
     }
 
+	public int getHourDelivered() {
+		return hourDelivered;
+	}
 
+	public void setHourDelivered(int hourDelivered) {
+		this.hourDelivered = hourDelivered;
+	}
+
+	
+    
+    
 }
