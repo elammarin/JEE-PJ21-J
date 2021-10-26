@@ -71,6 +71,18 @@ public class OrderController {
         o.setCustomerId("123");
         o.setDeliveredBy(Math.toIntExact(1));
         repoOrder.save(o);
+
+        Order o10 = new Order();
+        Date d10 = new Date();
+        o10.setCreatedOn(d10);
+        int hourD10 = dateToHour(d10);
+        System.out.println(d10);
+        o10.setHourDelivered(hourD10);
+        o10.setAmount(400);
+        o10.setCurrentStatus(Status.READY_TO_DELIVER);
+        o10.setCustomerId("1234");
+        o10.setDeliveredBy(Math.toIntExact(1));
+        repoOrder.save(o10);
         
         Order o2 = new Order();
         Date d2 = new Date();
