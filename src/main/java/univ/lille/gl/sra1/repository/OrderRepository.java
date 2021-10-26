@@ -29,5 +29,7 @@ public interface OrderRepository
  public int countAllByCurrentStatusAndCreatedOnAndHourDelivered(Status currentStatus, Date createdOn ,int hourDelivered);
 
  public List<Order> findAllByCurrentStatusAndCreatedOnAndHourDelivered(Status currentStatus, Date createdOn ,int hourDelivered);
+ 
+ public List<Order> findAllByCurrentStatus(Status currentStatus);
 
 }
