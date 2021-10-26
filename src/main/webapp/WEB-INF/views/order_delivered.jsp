@@ -95,7 +95,7 @@
 		                
 		    	</c:forEach>
 		    	</c:if>
-		    	<br>
+		    	<br><br>
 		 	</c:forEach>
         </c:otherwise>
     </c:choose>

@@ -252,7 +252,7 @@ public class OrderController {
         //compter le nombre de commande qu'il a livré lui meme en cette tranche d'heure
         for(int i= 0 ; i<24; i++ ) {
         	listOrderEmployee = repoOrder.findAllByCurrentStatusAndCreatedOnAndHourDelivered(Status.DELIVERED ,dateC, i);
-        	for(int x = 0; x < 5; x++){
+        	for(int x = 0; x < 4; x++){
         		for(int j=0; j<listOrderEmployee.size();j++) {
         			if(listOrderEmployee.get(j).getDeliveredBy() == x) {
             			nbrOrderDeliveredByAnEmployee++;
