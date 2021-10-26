@@ -30,6 +30,14 @@ public interface OrderRepository
 
  public List<Order> findAllByCurrentStatusAndCreatedOnAndHourDelivered(Status currentStatus, Date createdOn ,int hourDelivered);
  
+ 
+ 
+ // Cherche les orders ayant un certain status
+ 
  public List<Order> findAllByCurrentStatus(Status currentStatus);
+ 
+ // Cherche une order par id
+ 
+ public Order findById(long id);
 
 }

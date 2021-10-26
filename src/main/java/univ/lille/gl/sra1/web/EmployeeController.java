@@ -1,11 +1,15 @@
 package univ.lille.gl.sra1.web;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import univ.lille.gl.sra1.dao.Status;
@@ -22,6 +26,8 @@ public class EmployeeController {
 	private EmployeeRepository employeeRepository;
 	@Autowired
 	private OrderRepository orderRepository;
+	
+	
 	
 	@GetMapping(value="/init.html", produces="text/html")
 	public String initEmployees() {
@@ -63,19 +69,54 @@ public class EmployeeController {
 		return "employee/init";
 	}
 	
+	
+	
 	@GetMapping(value="/ready_orders.html")
-	public String deliverReadyOrders(Model model) {
-		List<Employee> employees = null;
-		List<Order> orders = null;
+	public String getReadyOrders(Model model) {
+		// Initialise la liste des employés et la liste des commandes
 		
-		employees = employeeRepository.findAllEmployees();
-		orders    = orderRepository.findAllByCurrentStatus(Status.READY_TO_DELIVER);
+		List<Employee> employees = employeeRepository.findAllEmployees();
+		List<Order> orders = orderRepository.findAllByCurrentStatus(Status.READY_TO_DELIVER);;
+		
+		
+		// Ajoutes les deux listes au modèle
 		
 		model.addAttribute("employees", employees);
 		model.addAttribute("orders"   , orders);
 		
+		
 		return "employee/ready_orders";
 	}
+	
+	
+	
+	@Transactional
+	@PostMapping(value="/ready_orders.html")
+	public String deliverReadyOrders(Model model, @ModelAttribute("employeeId") long employeeId, @ModelAttribute("orderId") long orderId) {
+		// Récupère l'employé et la commande sélectionnés
+		
+		Order order = orderRepository.findById(orderId);
+		Employee employee = employeeRepository.findById(employeeId);
+		
+		
+		// Récupère la date actuelle
+		
+		int hourDelivered = Math.toIntExact(((new Date().getTime() / 1000 / 60 / 60) + 2) % 24);
+		
+
+		// Met à jour les informations de la commande
+		
+		order.setCurrentStatus(Status.DELIVERED);
+		order.setHourDelivered(hourDelivered);
+		order.setDeliveredBy(employee.getId());
+		
+		orderRepository.save(order);
+		
+				
+		return getReadyOrders(model);
+	}
+	
+	
 	
 	public String disconnect(Model model) {
 		// TODO quand un employé se déconnecte,

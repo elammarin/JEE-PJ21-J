@@ -13,4 +13,5 @@ public interface EmployeeRepository extends EmployeeDao, CrudRepository<Employee
 	@Query("SELECT e FROM Employee e ORDER BY e.lastname ASC")
 	public List<Employee> findAllEmployees();
 	
+	public Employee findById(long id);
 }
