@@ -23,7 +23,7 @@ String ctxPath = request.getContextPath();
   <div class="row">
     <div class="form-group col-lg-3">
       <label for="customerID" class="col-sm-15 col-form-label">Entrez votre identifiant client afin de récuperer vôtre commande :</label>
-      <input type="text" name="customerID" class="form-control input" id="customerID" placeholder="Enter customerID">
+      <input type="text" name="customerID" required="required" class="form-control input" id="customerID" placeholder="Enter customerID">
     </div>
   </div>
   <button type="submit" class="btn btn-primary" >Valider</button>

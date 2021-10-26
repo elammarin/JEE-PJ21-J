@@ -28,7 +28,6 @@ public interface OrderRepository
 
  public int countAllByCurrentStatusAndCreatedOnAndHourDelivered(Status currentStatus, Date createdOn ,int hourDelivered);
 
- @Query("select o from Order o where o.currentStatus = ?1 and o.createdOn = ?2 and o.hourDelivered = ?3 ")
- public List<Order> getOrderByCurrentStatusAndCreatedOnAndHourDelivered(Status currentStatus, Date createdOn ,int hourDelivered);
+ public List<Order> findAllByCurrentStatusAndCreatedOnAndHourDelivered(Status currentStatus, Date createdOn ,int hourDelivered);
 
 }

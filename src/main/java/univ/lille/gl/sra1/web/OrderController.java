@@ -188,7 +188,7 @@ public class OrderController {
    
         
         for(int i= 0 ; i<24; i++ ) {
-        	listOrder = repoOrder.getOrderByCurrentStatusAndCreatedOnAndHourDelivered(Status.DELIVERED ,dateC, i);
+        	listOrder = repoOrder.findAllByCurrentStatusAndCreatedOnAndHourDelivered(Status.DELIVERED ,dateC, i);
         	for(int j=0; j<listOrder.size();j++) {
         		montantTotal = montantTotal + listOrder.get(j).getAmount();
         	}

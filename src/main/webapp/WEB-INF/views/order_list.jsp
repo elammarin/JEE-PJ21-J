@@ -36,13 +36,13 @@
                 <li class="list-group-item">
                     <p>
                         Date : <fmt:formatDate pattern = "d/M/YY" value="${order.createdOn}"/><br/>
-                        Amount : <fmt:formatNumber type="currency" pattern ="#,##" value="${order.amount}" currencySymbol="€; " /> <br/>
+                        Amount : <fmt:formatNumber type="currency" value="${order.amount}" /> <br/>
                         Status : <c:out value = "${order.currentStatus}"/>
-                    </p>
+                    </p> 
                 </li>
             <!--/c:forEach-->
         <form action="../${order.id}/ticket.html">
-            <button type="submit" class="btn btn-primary" >Récuperer</button>
+            <button type="submit" class="btn btn-primary" >Récupérer</button>
         </form>
         </c:otherwise>
     </c:choose>

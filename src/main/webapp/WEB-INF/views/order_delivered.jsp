@@ -27,12 +27,13 @@
         <c:when test="${empty listHour}">
         	<p>Aucune commande livrée</p>
         	<p>Nombre total de commandes : 0</p>
-			<p>Montant total de commandes : 0</p>
+			<p>Montant total de commandes : 0 €</p>
         </c:when>
         
         <c:otherwise>
         	<p>Nombre total de commandes : ${nombreTotalCommande}</p>
-			<p>Montant total de commandes : ${montantTotal}</p>
+			<p>Montant total de commandes : <fmt:formatNumber type="currency" value="${montantTotal}" /></p>
+        	
         	
         	<c:set var="i" value="0" />
             <c:forEach items="${listHour}" var="nbrCommande">
