@@ -35,18 +35,70 @@
 			<p>Montant total de commandes : <fmt:formatNumber type="currency" value="${montantTotal}" /></p>
         	
         	
-        	<c:set var="i" value="0" />
+        	<c:set var="i" value="-1" />
             <c:forEach items="${listHour}" var="nbrCommande">
+                <c:set var="i" value="${i + 1}" />
+                <c:if test="${nbrCommande > 0}">
                 <li class="list-group-item">
                 	  
                      <p>   Entre : ${i}h - ${i + 1}h </p>
                      <p>   Nombre de commandes livrées :  <fmt:formatNumber value="${nbrCommande}" /> </p><br/>
-					 <c:set var="i" value="${i + 1}" />
+					 
                 </li>
+                </c:if>
             </c:forEach>
         </c:otherwise>
     </c:choose>
 </ul>
 
 </div>
+<div class="container">
+<h3>Le nombre de commande par tranche d'heure livré par chaque employée pour la journée ${dateVoulu}</h3>
+<ul class="list-group">
+
+    <c:choose>
+        <c:when test="${nombreTotalCommande == 0}">
+        	<p>Aucune commande livrée</p>
+        	<p>Nombre total de commandes : 0</p>
+        </c:when>
+        
+        <c:otherwise>
+        	<p>Nombre total de commandes : ${nombreTotalCommande}</p>
+			<p>Montant total de commandes : <fmt:formatNumber type="currency" value="${montantTotal}" /></p>
+        	
+        	
+        	<c:set var="i" value="0" />
+        	
+            <c:forEach items="${listNbrOrderDeliveredByAllEmployees}" var="nbrCommandeEmployee">
+                <c:if test="${not empty nbrCommandeEmployee}">
+                <p>   Entre : ${i}h - ${i + 1}h </p>
+		        <c:set var="i" value="${i + 1}" />
+		        <c:set var="x" value="0" />                     
+                <c:forEach items="${nbrCommandeEmployee}" var="orderEmployee">
+		                
+		                <c:if test="${orderEmployee > 0}">
+		                <li class="list-group-item">
+		             		 
+		        			 <p>   Employee : ${x} </p> 
+		        			 <p>   Nombre de commande : ${orderEmployee} </p> 
+		        			 <c:set var="x" value="${x + 1}" />
+		                </li>
+		                </c:if>
+		                <c:if test="${orderEmployee == 0}">
+		                <li class="list-group-item">
+							 <p>   Employee : ${x} </p>		             		
+		             		 <p> Pas de commande livrée</p> 
+		        			 <c:set var="x" value="${x + 1}" />
+		                </li>
+		                </c:if>
+		                
+		    	</c:forEach>
+		    	</c:if>
+		 	</c:forEach>
+        </c:otherwise>
+    </c:choose>
+</ul>
+
+</div>
+
 </body>

@@ -29,9 +29,11 @@ public class Order implements Serializable {
     private Date createdOn;
    
     private int hourDelivered;
+    private int amount;
     
-	private int amount;
-
+    //id employee
+    private long deliveredBy;
+    
     @ElementCollection
     private List<String> articles = new ArrayList<>();
 
@@ -89,7 +91,14 @@ public class Order implements Serializable {
 		this.hourDelivered = hourDelivered;
 	}
 
-	
+	public long getDeliveredBy() {
+		return deliveredBy;
+	}
+
+	public void setDeliveredBy(long deliveredBy) {
+		this.deliveredBy = deliveredBy;
+	}
+
     
     
 }

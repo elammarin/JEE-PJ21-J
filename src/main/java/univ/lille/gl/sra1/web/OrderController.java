@@ -56,6 +56,7 @@ public class OrderController {
         o1.setHourDelivered(hourD1);
         o1.setAmount(300);
         o1.setCustomerId("12331");
+        o1.setDeliveredBy(Math.toIntExact(1));
         o1.setCurrentStatus(Status.ORDERED);
         repoOrder.save(o1);
         
@@ -68,17 +69,19 @@ public class OrderController {
         o.setAmount(400);
         o.setCurrentStatus(Status.READY_TO_DELIVER);
         o.setCustomerId("123");
+        o.setDeliveredBy(Math.toIntExact(1));
         repoOrder.save(o);
         
         Order o2 = new Order();
         Date d2 = new Date();
 		o2.setCreatedOn(d2);
-		int hourD4 = dateToHour(d2);
-		System.out.println(hourD4);
-		o2.setHourDelivered(hourD4);
+		int hourD2 = dateToHour(d2);
+		System.out.println(hourD2);
+		o2.setHourDelivered(hourD2);
 		o2.setAmount(400);
         o2.setCurrentStatus(Status.DELIVERED);
         o2.setCustomerId("123");
+        o2.setDeliveredBy(Math.toIntExact(1));
         repoOrder.save(o2);
         
         Order o3 = new Order();
@@ -90,7 +93,21 @@ public class OrderController {
         o3.setAmount(400);
         o3.setCurrentStatus(Status.DELIVERED);
         o3.setCustomerId("123");
+        o3.setDeliveredBy(Math.toIntExact(1));
         repoOrder.save(o3);
+      
+        Order o4 = new Order();
+        Date d4 = new Date();
+        o4.setCreatedOn(d4);
+        int hourD4 = dateToHour(d4);
+        System.out.println(hourD4);
+        o4.setHourDelivered(hourD4);
+        o4.setAmount(400);
+        o4.setCurrentStatus(Status.DELIVERED);
+        o4.setCustomerId("123");
+        o4.setDeliveredBy(Math.toIntExact(0));
+        repoOrder.save(o4);
+     
         return "init";
     }
 
@@ -182,10 +199,19 @@ public class OrderController {
         String dateVoulu = dateFormat.format(dateC);
         
         List<Integer> listHour = new ArrayList<Integer>();
+        List<List<Integer>> listNbrOrderDeliveredByAllEmployees = new ArrayList<List<Integer>>();
+        List<Integer> listNbrOrderDeliveredByAnEmployee = new ArrayList<Integer>();
         List<Order> listOrder = new ArrayList<Order>();
+        List<Order> listOrderEmployee = new ArrayList<Order>();
         int nombreTotalCommande = 0; 
         int montantTotal = 0;
+        int nbrOrderDeliveredByAnEmployee = 0;
+        
+        for(int i= 0 ; i<24; i++ ) {
+        	listHour.add(repoOrder.countAllByCurrentStatusAndCreatedOnAndHourDelivered(Status.DELIVERED ,dateC, i));
+        	nombreTotalCommande = nombreTotalCommande + listHour.get(i);
    
+        }
         
         for(int i= 0 ; i<24; i++ ) {
         	listOrder = repoOrder.findAllByCurrentStatusAndCreatedOnAndHourDelivered(Status.DELIVERED ,dateC, i);
@@ -195,11 +221,24 @@ public class OrderController {
         }
         
         for(int i= 0 ; i<24; i++ ) {
-        	listHour.add(repoOrder.countAllByCurrentStatusAndCreatedOnAndHourDelivered(Status.DELIVERED ,dateC, i));
-        	nombreTotalCommande = nombreTotalCommande + listHour.get(i);
-   
-        }	
-    	
+        	listOrderEmployee = repoOrder.findAllByCurrentStatusAndCreatedOnAndHourDelivered(Status.DELIVERED ,dateC, i);
+        	for(int x = 0; x < 5; x++){
+        		for(int j=0; j<listOrderEmployee.size();j++) {
+        			if(listOrderEmployee.get(j).getDeliveredBy() == x) {
+            			nbrOrderDeliveredByAnEmployee++;
+            		}
+        		}
+        	
+        		listNbrOrderDeliveredByAnEmployee.add(nbrOrderDeliveredByAnEmployee);
+        		nbrOrderDeliveredByAnEmployee = 0 ;
+                
+        	}
+        	listNbrOrderDeliveredByAllEmployees.add(listNbrOrderDeliveredByAnEmployee);
+        	listNbrOrderDeliveredByAnEmployee =  new ArrayList<Integer>();
+        }
+        
+        System.out.println("listNbrOrderDeliveredByAllEmployees     "+listNbrOrderDeliveredByAllEmployees.size());
+        
         if(nombreTotalCommande>0) {
         	model.addAttribute("listHour", listHour);	
         }else {
@@ -208,9 +247,8 @@ public class OrderController {
         }
         	
         
-    	System.out.println(nombreTotalCommande);
-    	System.out.println(montantTotal);
     	
+    	model.addAttribute("listNbrOrderDeliveredByAllEmployees", listNbrOrderDeliveredByAllEmployees);
     	model.addAttribute("nombreTotalCommande", nombreTotalCommande);
     	model.addAttribute("montantTotal", montantTotal);
         model.addAttribute("dateVoulu", dateVoulu);
