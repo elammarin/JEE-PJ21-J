@@ -11,6 +11,9 @@ public class Dock {
     @GeneratedValue
     int id;
 	
+	int x;
+	int y;
+	
 	int numDocker;
 
 	public int getId() {
@@ -28,7 +31,24 @@ public class Dock {
 	public void setNumDocker(int numDocker) {
 		this.numDocker = numDocker;
 	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
 	
 	
+
 	
 }
