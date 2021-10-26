@@ -207,24 +207,37 @@ public class OrderController {
     @PostMapping(path="orderDeliveredAdmin.html")
     public String createRoleAdmin(@RequestParam("dateChoisie") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateC,Model model){
         
+    	//Sauvegarder la date choisie par l'admin sous format "dd/MM/yyyy" pour pouvoir l'afficher
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String dateVoulu = dateFormat.format(dateC);
         
+        //Liste qui contient le nombre de commandes livrées par tranche d'heure 
         List<Integer> listHour = new ArrayList<Integer>();
-        List<List<Integer>> listNbrOrderDeliveredByAllEmployees = new ArrayList<List<Integer>>();
-        List<Integer> listNbrOrderDeliveredByAnEmployee = new ArrayList<Integer>();
+        
+        //Deux listes qui contiennent les commandes qui respectent un status, la date choisie par l'admin et l'heure de livraison
         List<Order> listOrder = new ArrayList<Order>();
         List<Order> listOrderEmployee = new ArrayList<Order>();
+        
+        //Une liste de liste du nombre de commandes livrées par heure de tout les employees 
+        List<List<Integer>> listNbrOrderDeliveredByAllEmployees = new ArrayList<List<Integer>>();
+        
+        //Une liste du nombre de commandes livrées par heure par un employee
+        List<Integer> listNbrOrderDeliveredByAnEmployee = new ArrayList<Integer>();
+        
+        
+        
         int nombreTotalCommande = 0; 
         int montantTotal = 0;
         int nbrOrderDeliveredByAnEmployee = 0;
         
+        //Pour chaque heure compter le nombre de commandes livrées
         for(int i= 0 ; i<24; i++ ) {
         	listHour.add(repoOrder.countAllByCurrentStatusAndCreatedOnAndHourDelivered(Status.DELIVERED ,dateC, i));
         	nombreTotalCommande = nombreTotalCommande + listHour.get(i);
-   
         }
         
+        //Pour chaque heure compter le nombre de commandes livrées
+        //et compter au meme temps le chiffre d'affaires de la journée
         for(int i= 0 ; i<24; i++ ) {
         	listOrder = repoOrder.findAllByCurrentStatusAndCreatedOnAndHourDelivered(Status.DELIVERED ,dateC, i);
         	for(int j=0; j<listOrder.size();j++) {
@@ -232,6 +245,11 @@ public class OrderController {
         	}
         }
         
+        
+        //Pour chaque heure de la journée choisie
+        //Récupérer les commandes livrées 
+        //et pour chaque employé 
+        //compter le nombre de commande qu'il a livré lui meme en cette tranche d'heure
         for(int i= 0 ; i<24; i++ ) {
         	listOrderEmployee = repoOrder.findAllByCurrentStatusAndCreatedOnAndHourDelivered(Status.DELIVERED ,dateC, i);
         	for(int x = 0; x < 5; x++){
@@ -242,14 +260,15 @@ public class OrderController {
         		}
         	
         		listNbrOrderDeliveredByAnEmployee.add(nbrOrderDeliveredByAnEmployee);
+        		//remettre le compteur a zero pour un autre employee
         		nbrOrderDeliveredByAnEmployee = 0 ;
                 
         	}
         	listNbrOrderDeliveredByAllEmployees.add(listNbrOrderDeliveredByAnEmployee);
+        	//remettre la liste a zero pour une nouvelle tranche d'heure
         	listNbrOrderDeliveredByAnEmployee =  new ArrayList<Integer>();
         }
         
-        System.out.println("listNbrOrderDeliveredByAllEmployees     "+listNbrOrderDeliveredByAllEmployees.size());
         
         if(nombreTotalCommande>0) {
         	model.addAttribute("listHour", listHour);	

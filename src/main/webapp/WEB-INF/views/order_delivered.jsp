@@ -50,7 +50,8 @@
         </c:otherwise>
     </c:choose>
 </ul>
-
+<br><br>
+<br><br>
 </div>
 <div class="container">
 <h3>Le nombre de commande par tranche d'heure livré par chaque employée pour la journée ${dateVoulu}</h3>
@@ -71,7 +72,7 @@
         	
             <c:forEach items="${listNbrOrderDeliveredByAllEmployees}" var="nbrCommandeEmployee">
                 <c:if test="${not empty nbrCommandeEmployee}">
-                <p>   Entre : ${i}h - ${i + 1}h </p>
+                <h5>   Entre : ${i}h - ${i + 1}h </h5>
 		        <c:set var="i" value="${i + 1}" />
 		        <c:set var="x" value="0" />                     
                 <c:forEach items="${nbrCommandeEmployee}" var="orderEmployee">
@@ -94,6 +95,7 @@
 		                
 		    	</c:forEach>
 		    	</c:if>
+		    	<br>
 		 	</c:forEach>
         </c:otherwise>
     </c:choose>
