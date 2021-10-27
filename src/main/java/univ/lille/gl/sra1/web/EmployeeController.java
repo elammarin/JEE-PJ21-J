@@ -121,6 +121,7 @@ public class EmployeeController {
 		List<Long> ids = (List<Long>) r.getSession().getAttribute("dock");
 		List<Order> orders = new ArrayList<>();
 		for (Long elmt : ids){
+			if (elmt.intValue()!=-1)
 			orders.add(orderRepository.findById(elmt));
 		}
 		
