@@ -23,7 +23,7 @@ public class DockController {
 
 	@ResponseBody
 	@GetMapping(path = "/list.json")
-	public List<Dock> getDocks(Model model, HttpServletRequest req, HttpServletResponse res) {
+	public List<Dock> getDocks(Model model, HttpServletResponse res) {
 
 		try {
 			List<Dock> docks = (List<Dock>) dockRep.findAll();
@@ -38,7 +38,7 @@ public class DockController {
 
 	}
 
-	@GetMapping(path = "/list.html")
+	@GetMapping(path = "/admin/list.html")
 	public String listDocks(Model model, HttpServletRequest req, HttpServletResponse res) {
 
 		try {
@@ -58,7 +58,7 @@ public class DockController {
 
 	@ResponseBody
 	@PostMapping(path = "/post.json", consumes = "application/json")
-	public SimpleResponse createDock(Model model, HttpServletRequest req, HttpServletResponse resp, @RequestBody Dock dock) {
+	public SimpleResponse createDock(Model model, HttpServletResponse resp, @RequestBody Dock dock) {
 
 		SimpleResponse res = new SimpleResponse();
 
@@ -71,7 +71,7 @@ public class DockController {
 			} else {
 				dockRep.save(dock);
 				res.status = SimpleResponse.Status.OK;
-				res.message = "crée avec succes ;) ;) ;)";
+				res.message = "crée avec succes";
 				resp.setStatus(200);
 			}
 
@@ -88,7 +88,7 @@ public class DockController {
 
 	@ResponseBody
 	@PutMapping(path="/update.json",consumes="application/json")
-	public SimpleResponse updateDock(Model model, HttpServletRequest req , HttpServletResponse resp, @RequestBody Dock dock) {
+	public SimpleResponse updateDock(Model model , HttpServletResponse resp, @RequestBody Dock dock) {
 
 		SimpleResponse res = new SimpleResponse();
 
@@ -102,7 +102,7 @@ public class DockController {
 			else{
 				dockRep.save(dock);
 				res.status = SimpleResponse.Status.OK;
-				res.message = "modifié avec succes =====)";
+				res.message = "modifié avec succes";
 				resp.setStatus(200);
 			}
 
@@ -125,13 +125,13 @@ public class DockController {
 			if(dockRep.existsById(id)){
 				dockRep.delete(id);
 				res.status = SimpleResponse.Status.OK;
-				res.message = "Dock supprimé bro ;)";
+				res.message = "Docker supprimé ";
 				resp.setStatus(200);
 			}
 			else {
 
 				res.status = SimpleResponse.Status.ERROR;
-				res.message = "Dock n'existe pas";
+				res.message = "le Docker n'existe pas";
 				resp.setStatus(404);
 			}
 

@@ -12,7 +12,7 @@
 
 </head>
 <body>
-<H1>DOCKS</H1>
+<H1>DOCKERS</H1>
 
 <form id="form-add">
     <p id="error" style="background-color: #ec7b7b;display: none;width: 30%" ></p>
