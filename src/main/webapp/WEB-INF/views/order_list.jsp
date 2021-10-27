@@ -35,6 +35,7 @@
             <!--c:forEach items="${orders}" var="order"-->
                 <li class="list-group-item">
                     <p>
+						Id commande : <c:out value = "${order.id}"/> <br/>
                         Date : <fmt:formatDate pattern = "d/M/YY" value="${order.createdOn}"/><br/>
                         Amount : <fmt:formatNumber type="currency" value="${order.amount}" /> <br/>
                         Status : <c:out value = "${order.currentStatus}"/>
