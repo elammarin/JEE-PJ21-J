@@ -96,4 +96,4 @@ Une autre partie de la page montrera le nombre de commandes livrées par employ�
 * Nous aurions réalisé la dernière user story
 * Nous aurions ajouté du css à nos pages pour les rendre plus jolies
 * Nous aurions laissé le soin aux clients de créer les commandes
-* Nous aurions départagé les différents rôles (admin, client employé)
+* Nous aurions départagé les différents rôles (admin, client, employé)
