@@ -1,5 +1,6 @@
 package univ.lille.gl.sra1.web;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -94,18 +95,18 @@ public class EmployeeController {
 	
 	
 	@PostMapping(value="/connect.html")
-	public String postUser(Model model, @ModelAttribute("employeeId") long employeeId) {
+	public String postUser(Model model, @ModelAttribute("employeeId") long employeeId, HttpServletRequest r) {
 		employee = employeeRepository.findById(employeeId);
 		
 		System.out.println(employee.getLastname() + " " + employee.getFirstname());
 		
-		return getReadyOrders(model);
+		return getReadyOrders(model, r);
 	}
 	
 	
 	
 	@GetMapping(value="/ready_orders.html")
-	public String getReadyOrders(Model model) {
+	public String getReadyOrders(Model model, HttpServletRequest r) {
 		// Retourne à la page de connexion si la session n'existe pas
 		
 		System.out.println(employee.getLastname() + " " + employee.getFirstname());
@@ -116,8 +117,12 @@ public class EmployeeController {
 		
 		// Initialise la liste des commandes
 		
-		List<Order> orders = orderRepository.findAllByCurrentStatus(Status.READY_TO_DELIVER);
-		
+		//List<Order> orders = orderRepository.findAllByCurrentStatus(Status.READY_TO_DELIVER);
+		List<Long> ids = (List<Long>) r.getSession().getAttribute("dock");
+		List<Order> orders = new ArrayList<>();
+		for (Long elmt : ids){
+			orders.add(orderRepository.findById(elmt));
+		}
 		
 		// Ajoutes les deux listes au modèle
 		
@@ -142,9 +147,12 @@ public class EmployeeController {
 		
 		Order order = orderRepository.findById(orderId);
 		
-		
+		List<Long> l = (List<Long>) req.getSession().getAttribute("dock");
+		int indexToDelete = l.indexOf(orderId);
+		l.set(indexToDelete, Long.valueOf(-1));
+		req.getSession().setAttribute("dock", l);
 		// Récupère la date actuelle
-		
+
 		int hourDelivered = Math.toIntExact(((new Date().getTime() / 1000 / 60 / 60) + 2) % 24);
 		
 
@@ -157,7 +165,7 @@ public class EmployeeController {
 		orderRepository.save(order);
 		
 				
-		return getReadyOrders(model);
+		return getReadyOrders(model, req);
 	}
 	
 	

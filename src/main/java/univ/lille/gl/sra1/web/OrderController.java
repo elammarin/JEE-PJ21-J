@@ -161,7 +161,7 @@ public class OrderController {
         }
         //si les quais sont pleins on ne peut pas donner de numéro de quai au client
         if (size == dock.size()){
-            ticket = -1;
+            ticket = Long.valueOf(-1).intValue();
         }
         //sinon on peut ajouter donner un numero d'un quai dispo
         else{
@@ -170,8 +170,8 @@ public class OrderController {
                 //si un quai entre plusieurs quais occupés contient un emplacement vide.
                 // L'employé devra remplacé l'id de la commande par -1 quand il aura delivré une commande
                 // depuis ce nuero de quai
-                if (dock.contains(-1)){
-                    int index = dock.indexOf(-1);
+                if (dock.contains(Long.valueOf(-1))){
+                    int index = dock.indexOf(Long.valueOf(-1));
                     dock.add(index, id);
                     ticket = index;
                 }
@@ -236,8 +236,7 @@ public class OrderController {
         	nombreTotalCommande = nombreTotalCommande + listHour.get(i);
         }
         
-        
-        //Pour chaque heure récupérer les commandes livrées à cette heure ci
+        //Pour chaque heure compter le nombre de commandes livrées
         //et compter au meme temps le chiffre d'affaires de la journée
         for(int i= 0 ; i<24; i++ ) {
         	listOrder = repoOrder.findAllByCurrentStatusAndCreatedOnAndHourDelivered(Status.DELIVERED ,dateC, i);
