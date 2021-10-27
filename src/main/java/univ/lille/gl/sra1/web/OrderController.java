@@ -236,7 +236,8 @@ public class OrderController {
         	nombreTotalCommande = nombreTotalCommande + listHour.get(i);
         }
         
-        //Pour chaque heure compter le nombre de commandes livrées
+        
+        //Pour chaque heure récupérer les commandes livrées à cette heure ci
         //et compter au meme temps le chiffre d'affaires de la journée
         for(int i= 0 ; i<24; i++ ) {
         	listOrder = repoOrder.findAllByCurrentStatusAndCreatedOnAndHourDelivered(Status.DELIVERED ,dateC, i);
