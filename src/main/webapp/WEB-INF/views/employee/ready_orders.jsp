@@ -14,15 +14,6 @@
 
         <div>
             <form action="ready_orders.html" method="post">
-                <label for="employee_menu">Employee</label>
-                <select id="employee_menu" name="employeeId">
-                    <option value="">--Please choose an employee--</option>
-                    <c:forEach items="${employees}" var="employee">
-                        <!-- <option value="<c:out value='${employee.lastname} ${employee.firstname}'/>"><c:out value="${employee.lastname} ${employee.firstname}"/></option> -->
-                        <option value="${employee.id}">${employee.lastname} ${employee.firstname}</option>
-                    </c:forEach>
-                </select>
-
                 <label for="order_menu">Order</label>
                 <select id="order_menu" name="orderId">
                     <option value="">--Please choose an order--</option>

@@ -3,7 +3,11 @@ package univ.lille.gl.sra1.web;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import univ.lille.gl.sra1.dao.Status;
 import univ.lille.gl.sra1.model.Employee;
@@ -19,13 +24,17 @@ import univ.lille.gl.sra1.repository.EmployeeRepository;
 import univ.lille.gl.sra1.repository.OrderRepository;
 
 @Controller
+@Scope("session")
 @RequestMapping(path="/employee")
+//@SessionAttributes(value="employeeXX", types={Employee.class})
 public class EmployeeController {
 	
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	@Autowired
 	private OrderRepository orderRepository;
+
+	private Employee employee;
 	
 	
 	
@@ -70,19 +79,49 @@ public class EmployeeController {
 	}
 	
 	
+
+	
+	
+	@GetMapping(value="/connect.html")
+	public String getUser(Model model) {
+		List<Employee> employees = employeeRepository.findAllEmployees();
+		
+		model.addAttribute("employees", employees);
+		
+		return "employee/connect";
+	}
+	
+	
+	
+	@PostMapping(value="/connect.html")
+	public String postUser(Model model, @ModelAttribute("employeeId") long employeeId) {
+		employee = employeeRepository.findById(employeeId);
+		
+		System.out.println(employee.getLastname() + " " + employee.getFirstname());
+		
+		return getReadyOrders(model);
+	}
+	
+	
 	
 	@GetMapping(value="/ready_orders.html")
 	public String getReadyOrders(Model model) {
-		// Initialise la liste des employés et la liste des commandes
+		// Retourne à la page de connexion si la session n'existe pas
 		
-		List<Employee> employees = employeeRepository.findAllEmployees();
-		List<Order> orders = orderRepository.findAllByCurrentStatus(Status.READY_TO_DELIVER);;
+		System.out.println(employee.getLastname() + " " + employee.getFirstname());
+		
+		if(employee == null)
+			return getUser(model);
+		
+		
+		// Initialise la liste des commandes
+		
+		List<Order> orders = orderRepository.findAllByCurrentStatus(Status.READY_TO_DELIVER);
 		
 		
 		// Ajoutes les deux listes au modèle
 		
-		model.addAttribute("employees", employees);
-		model.addAttribute("orders"   , orders);
+		model.addAttribute("orders", orders);
 		
 		
 		return "employee/ready_orders";
@@ -92,11 +131,16 @@ public class EmployeeController {
 	
 	@Transactional
 	@PostMapping(value="/ready_orders.html")
-	public String deliverReadyOrders(Model model, @ModelAttribute("employeeId") long employeeId, @ModelAttribute("orderId") long orderId) {
+	public String deliverReadyOrders(Model model, @ModelAttribute("orderId") long orderId, HttpServletRequest req) {
+		// Retourne à la page de connexion si la session n'existe pas
+		
+		if(employee == null)
+			return getUser(model);
+				
+		
 		// Récupère l'employé et la commande sélectionnés
 		
 		Order order = orderRepository.findById(orderId);
-		Employee employee = employeeRepository.findById(employeeId);
 		
 		
 		// Récupère la date actuelle
@@ -118,15 +162,8 @@ public class EmployeeController {
 	
 	
 	
-	public String disconnect(Model model) {
-		// TODO quand un employé se déconnecte,
-		//      les orders qu'il devait livrer
-		//      peuvent être livré par d'autres
-		//      employés.
+	public String disconnect(Model model, HttpSession session) {
 		
-		// TODO créer "Employee deliveredBy" dans Order
-		//      créer "List<Order> toDeliver" dans Employee
-		//      linker les deux avec une relation
 		
 		return "";
 	}
