@@ -26,6 +26,15 @@
                 <br>
                 <button type="submit">Delivered</button>
             </form>
+
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <form action="disconnect.html" method="post">
+                <button type="submit" formaction="disconnect.html">Disconnect</button>
+            </form>
         </div>
     </body>
 </html>

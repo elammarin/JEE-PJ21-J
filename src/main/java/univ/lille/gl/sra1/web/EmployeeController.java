@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import univ.lille.gl.sra1.dao.Status;
 import univ.lille.gl.sra1.model.Employee;
@@ -109,7 +107,7 @@ public class EmployeeController {
 	public String getReadyOrders(Model model, HttpServletRequest r) {
 		// Retourne à la page de connexion si la session n'existe pas
 		
-		System.out.println(employee.getLastname() + " " + employee.getFirstname());
+//		System.out.println(employee.getLastname() + " " + employee.getFirstname());
 		
 		if(employee == null)
 			return getUser(model);
@@ -125,7 +123,7 @@ public class EmployeeController {
 			orders.add(orderRepository.findById(elmt));
 		}
 		
-		// Ajoutes les deux listes au modèle
+		// Ajoute les deux listes au modèle
 		
 		model.addAttribute("orders", orders);
 		
@@ -170,11 +168,11 @@ public class EmployeeController {
 	}
 	
 	
-	
-	public String disconnect(Model model, HttpSession session) {
+	@PostMapping(value="/disconnect.html")
+	public String disconnect(Model model) {
+		employee = null;
 		
-		
-		return "";
+		return "employee/disconnect";
 	}
 	
 }
