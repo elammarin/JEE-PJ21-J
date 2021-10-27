@@ -15,7 +15,7 @@
         <div>
             <form action="connect.html" method="post">
                 <label for="employee_menu">Employee</label>
-                <select id="employee_menu" name="employeeId">
+                <select id="employee_menu" name="employeeId" required>
                     <option value="">--Please choose an employee--</option>
                     <c:forEach items="${employees}" var="employee">
                         <option value="${employee.id}">${employee.lastname} ${employee.firstname}</option>

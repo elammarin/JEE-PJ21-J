@@ -15,7 +15,7 @@
         <div>
             <form action="ready_orders.html" method="post">
                 <label for="order_menu">Order</label>
-                <select id="order_menu" name="orderId">
+                <select id="order_menu" name="orderId" required>
                     <option value="">--Please choose an order--</option>
                     <c:forEach items="${orders}" var="order">
                         <option value="${order.id}">${order.id}</option>
