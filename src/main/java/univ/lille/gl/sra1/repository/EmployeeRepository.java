@@ -10,7 +10,7 @@ import univ.lille.gl.sra1.model.Employee;
 
 public interface EmployeeRepository extends EmployeeDao, CrudRepository<Employee, Long>{
 	
-	@Query("SELECT e FROM Employee e ORDER BY e.lastname ASC")
+	@Query("SELECT e FROM Employee e ORDER BY e.id ASC")
 	public List<Employee> findAllEmployees();
 	
 	public Employee findById(long id);

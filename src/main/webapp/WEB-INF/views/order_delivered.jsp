@@ -74,7 +74,7 @@
                 <c:if test="${not empty nbrCommandeEmployee}">
                 <h5>   Entre : ${i}h - ${i + 1}h </h5>
 		        <c:set var="i" value="${i + 1}" />
-		        <c:set var="x" value="0" />                     
+		        <c:set var="x" value="1" />                     
                 <c:forEach items="${nbrCommandeEmployee}" var="orderEmployee">
 		                
 		                <c:if test="${orderEmployee > 0}">

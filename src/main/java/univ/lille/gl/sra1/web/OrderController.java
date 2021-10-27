@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import univ.lille.gl.sra1.dao.Status;
+import univ.lille.gl.sra1.model.Employee;
 import univ.lille.gl.sra1.model.Order;
+import univ.lille.gl.sra1.repository.EmployeeRepository;
 import univ.lille.gl.sra1.repository.OrderRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -23,6 +26,9 @@ import java.util.List;
 public class OrderController {
     @Autowired
     OrderRepository repoOrder;
+    
+    @Autowired
+    EmployeeRepository repoEmp;
 
     @PostMapping(path="ordermanager.html")
     public String createRole(@RequestParam("customerID") String valueOne){
@@ -55,7 +61,6 @@ public class OrderController {
         o1.setHourDelivered(hourD1);
         o1.setAmount(300);
         o1.setCustomerId("12331");
-        o1.setDeliveredBy(Math.toIntExact(1));
         o1.setCurrentStatus(Status.ORDERED);
         repoOrder.save(o1);
         
@@ -68,7 +73,6 @@ public class OrderController {
         o.setAmount(400);
         o.setCurrentStatus(Status.READY_TO_DELIVER);
         o.setCustomerId("123");
-        o.setDeliveredBy(Math.toIntExact(1));
         repoOrder.save(o);
 
         Order o10 = new Order();
@@ -80,12 +84,12 @@ public class OrderController {
         o10.setAmount(400);
         o10.setCurrentStatus(Status.READY_TO_DELIVER);
         o10.setCustomerId("1234");
-        o10.setDeliveredBy(Math.toIntExact(1));
         repoOrder.save(o10);
         
         Order o2 = new Order();
         Date d2 = new Date();
 		o2.setCreatedOn(d2);
+		o2.setDeliveredOn(d2);
 		int hourD2 = dateToHour(d2);
 		System.out.println(hourD2);
 		o2.setHourDelivered(hourD2);
@@ -98,6 +102,7 @@ public class OrderController {
         Order o3 = new Order();
         Date d3 = new Date();
         o3.setCreatedOn(d3);
+        o3.setDeliveredOn(d3);
         int hourD3 = dateToHour(d3);
         System.out.println(hourD3);
         o3.setHourDelivered(hourD3);
@@ -110,13 +115,14 @@ public class OrderController {
         Order o4 = new Order();
         Date d4 = new Date();
         o4.setCreatedOn(d4);
+        o4.setDeliveredOn(d4);
         int hourD4 = dateToHour(d4);
         System.out.println(hourD4);
         o4.setHourDelivered(hourD4);
         o4.setAmount(400);
         o4.setCurrentStatus(Status.DELIVERED);
         o4.setCustomerId("123");
-        o4.setDeliveredBy(Math.toIntExact(0));
+        o4.setDeliveredBy(Math.toIntExact(3));
         repoOrder.save(o4);
      
         return "init";
@@ -223,7 +229,9 @@ public class OrderController {
         //Une liste du nombre de commandes livrées par heure par un employee
         List<Integer> listNbrOrderDeliveredByAnEmployee = new ArrayList<Integer>();
         
-        
+        //Une liste qui contient tout les employées
+        List<Employee> listEmployee = repoEmp.findAllEmployees();
+
         
         int nombreTotalCommande = 0; 
         int montantTotal = 0;
@@ -231,14 +239,14 @@ public class OrderController {
         
         //Pour chaque heure compter le nombre de commandes livrées
         for(int i= 0 ; i<24; i++ ) {
-        	listHour.add(repoOrder.countAllByCurrentStatusAndCreatedOnAndHourDelivered(Status.DELIVERED ,dateC, i));
+        	listHour.add(repoOrder.countAllByCurrentStatusAndDeliveredOnAndHourDelivered(Status.DELIVERED ,dateC, i));
         	nombreTotalCommande = nombreTotalCommande + listHour.get(i);
         }
         
         //Pour chaque heure compter le nombre de commandes livrées
         //et compter au meme temps le chiffre d'affaires de la journée
         for(int i= 0 ; i<24; i++ ) {
-        	listOrder = repoOrder.findAllByCurrentStatusAndCreatedOnAndHourDelivered(Status.DELIVERED ,dateC, i);
+        	listOrder = repoOrder.findAllByCurrentStatusAndDeliveredOnAndHourDelivered(Status.DELIVERED ,dateC, i);
         	for(int j=0; j<listOrder.size();j++) {
         		montantTotal = montantTotal + listOrder.get(j).getAmount();
         	}
@@ -250,10 +258,10 @@ public class OrderController {
         //et pour chaque employé 
         //compter le nombre de commande qu'il a livré lui meme en cette tranche d'heure
         for(int i= 0 ; i<24; i++ ) {
-        	listOrderEmployee = repoOrder.findAllByCurrentStatusAndCreatedOnAndHourDelivered(Status.DELIVERED ,dateC, i);
-        	for(int x = 0; x < 4; x++){
+        	listOrderEmployee = repoOrder.findAllByCurrentStatusAndDeliveredOnAndHourDelivered(Status.DELIVERED ,dateC, i);
+        	for(int x = 0; x < listEmployee.size(); x++){
         		for(int j=0; j<listOrderEmployee.size();j++) {
-        			if(listOrderEmployee.get(j).getDeliveredBy() == x) {
+        			if(listOrderEmployee.get(j).getDeliveredBy() == listEmployee.get(x).getId()) {
             			nbrOrderDeliveredByAnEmployee++;
             		}
         		}

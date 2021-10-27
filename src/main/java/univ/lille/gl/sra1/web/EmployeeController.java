@@ -151,8 +151,9 @@ public class EmployeeController {
 		l.set(indexToDelete, Long.valueOf(-1));
 		req.getSession().setAttribute("dock", l);
 		// Récupère la date actuelle
-
-		int hourDelivered = Math.toIntExact(((new Date().getTime() / 1000 / 60 / 60) + 2) % 24);
+		
+		Date d = new Date();
+		int hourDelivered = Math.toIntExact(((d.getTime() / 1000 / 60 / 60) + 2) % 24);
 		
 
 		// Met à jour les informations de la commande
@@ -160,6 +161,7 @@ public class EmployeeController {
 		order.setCurrentStatus(Status.DELIVERED);
 		order.setHourDelivered(hourDelivered);
 		order.setDeliveredBy(employee.getId());
+		order.setDeliveredOn(d);
 		
 		orderRepository.save(order);
 		

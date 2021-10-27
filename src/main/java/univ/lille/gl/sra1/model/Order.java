@@ -27,6 +27,9 @@ public class Order implements Serializable {
 
     @Temporal(TemporalType.DATE)
     private Date createdOn;
+    
+    @Temporal(TemporalType.DATE)
+    private Date deliveredOn;
    
     private int hourDelivered;
     private int amount;
@@ -97,6 +100,14 @@ public class Order implements Serializable {
 
 	public void setDeliveredBy(long deliveredBy) {
 		this.deliveredBy = deliveredBy;
+	}
+
+	public Date getDeliveredOn() {
+		return deliveredOn;
+	}
+
+	public void setDeliveredOn(Date deliveredOn) {
+		this.deliveredOn = deliveredOn;
 	}
 
     

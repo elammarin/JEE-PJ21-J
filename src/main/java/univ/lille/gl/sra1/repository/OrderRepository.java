@@ -13,7 +13,8 @@ import java.util.List;
 public interface OrderRepository
         extends OrderDao, CrudRepository<Order, Long>
 {
- @Query("select o from Order o where o.customerId = ?1 order by o.createdOn DESC")
+/*
+@Query("select o from Order o where o.customerId = ?1 order by o.createdOn DESC")
  public List<Order> findAllByCustomerIdOrderByCreatedOnDesc(String customerId);
 
  @Query("select o from Order o where o.currentStatus = ?1 and o.createdOn between ?2 and ?3")
@@ -21,13 +22,14 @@ public interface OrderRepository
 
  @Query("select count(o) from Order o where o.currentStatus = ?1 and o.createdOn between ?2 and ?3")
  public int countOrdersByCurrentStatusAndCreatedOnBetween(String status, Date createdOnStart, Date createdOnEnd);
+*/
 
  @Query("select o from Order o where o.customerId = ?1 and o.currentStatus = ?2 order by o.createdOn ASC")
  public List<Order> findOrderToDeliver(String customerId, Status currentStatus);
 
- public int countAllByCurrentStatusAndCreatedOnAndHourDelivered(Status currentStatus, Date createdOn ,int hourDelivered);
+ public int countAllByCurrentStatusAndDeliveredOnAndHourDelivered(Status currentStatus, Date deliveredOn ,int hourDelivered);
 
- public List<Order> findAllByCurrentStatusAndCreatedOnAndHourDelivered(Status currentStatus, Date createdOn ,int hourDelivered);
+ public List<Order> findAllByCurrentStatusAndDeliveredOnAndHourDelivered(Status currentStatus, Date deliveredOn ,int hourDelivered);
  
  
  
