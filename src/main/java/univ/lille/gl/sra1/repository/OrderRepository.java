@@ -7,7 +7,6 @@ import univ.lille.gl.sra1.dao.OrderDao;
 import univ.lille.gl.sra1.dao.Status;
 import univ.lille.gl.sra1.model.Order;
 
-import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.List;
 

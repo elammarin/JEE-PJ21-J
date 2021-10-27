@@ -4,18 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import univ.lille.gl.sra1.dao.Status;
 import univ.lille.gl.sra1.model.Dock;
-import univ.lille.gl.sra1.model.Order;
 import univ.lille.gl.sra1.repository.DockRepository;
-import univ.lille.gl.sra1.repository.OrderRepository;
 import univ.lille.gl.sra1.web.dto.SimpleResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 

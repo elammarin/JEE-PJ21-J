@@ -169,7 +169,7 @@ public class EmployeeController {
 	
 	
 	@PostMapping(value="/disconnect.html")
-	public String disconnect(Model model) {
+	public String postDisconnect(Model model) {
 		employee = null;
 		
 		return "employee/disconnect";

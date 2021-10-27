@@ -9,4 +9,8 @@
     <body>
         <p>You have been disconnected.</p>
     </body>
+
+    <form action="connect.html" method="get">
+        <button type="submit">Reconnect !</button>
+    </form>
 </html>

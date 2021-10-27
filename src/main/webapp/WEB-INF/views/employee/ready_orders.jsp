@@ -33,7 +33,7 @@
             <br>
             <br>
             <form action="disconnect.html" method="post">
-                <button type="submit" formaction="disconnect.html">Disconnect</button>
+                <button type="submit">Disconnect</button>
             </form>
         </div>
     </body>
