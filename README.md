@@ -35,7 +35,7 @@ chmod -R +777 tomcat
 />
 ```
 
-## __Pré-requis : Lancement de l'application__
+## __Lancement de l'application__
 
 * Lancez Tomcat depuis son dossier `bin`
 
@@ -43,11 +43,18 @@ chmod -R +777 tomcat
 ./catalina.sh run
 ```
 
-* Accédez d'abord aux pages suivantes pour initialiser les données
-  * [Initialisation des commandes](http://localhost:8080/JEE-PJ21-J/order/init.html)
-  * [Initialisation des employés](http://localhost:8080/JEE-PJ21-J/employee/init.html)
+* Créez des quais à la [page de création des quais](http://localhost:8080/JEE-PJ21-J/docks/admin/list.html)
+* Initialisez les données __(dans l'ordre)__
+  * [page d'initialisation des employés](http://localhost:8080/JEE-PJ21-J/employee/init.html)
+  * [page d'initialisation des commandes](http://localhost:8080/JEE-PJ21-J/order/init.html)
+* Renseignez à la [page d'accueil du client](http://localhost:8080/JEE-PJ21-J/order/welcome.html) `123` (identifiant d'un client mocké) dans le champ et appuyez sur le bouton `Valider`
+* Appuyez ensuite sur le bouton `Récupérer` si une commande est prête à être délivrée
+* Choisissez un nom à la [page de connexion des employés](http://localhost:8080/JEE-PJ21-J/employee/connect.html) et appuyez sur le bouton `Connect !`
+* Choisissez une commande délivrable et appuyez sur le bouton `Delivered` pour notifer qu'elle a été délivrée ou `Disconnect` si vous souhaitez changer d'employé
+* Allez ensuite à la [page de vue des statistiques de l'admin](http://localhost:8080/JEE-PJ21-J/order/welcomeAdmin.html), choisissez une date et appuyez sur le bouton `Valider`
+* Admirez les statistiques de livraison
   
-## __User Stories réalisés__
+## __User Stories réalisées__
 
 * En tant qu'admin du drive, je peux gérer des quais de livraison pour organiser le retrait des commandes
 
@@ -83,3 +90,10 @@ L'admin doit pouvoir visualiser le nombre de commandes livrées par heure, pour 
 Un compteur reprendra aussi le nombre total de commandes livrées et le chiffre d'affaire de la journée (toutes les commande livrées).
 Une autre partie de la page montrera le nombre de commandes livrées par employé et par heure (par tranche d'une heure).
 ```
+
+## __Ce que nous aurions fait avec plus de temps__
+
+* Nous aurions réalisé la dernière user story
+* Nous aurions ajouté du css à nos pages pour les rendre plus jolies
+* Nous aurions laissé le soin aux clients de créer les commandes
+* Nous aurions départagé les différents rôles (admin, client employé)
